@@ -7,17 +7,21 @@ exports.handler = async (event) => {
 
     const [data] = await repoR.commitsAsync();
 
+    const body = {
+      error: null,
+      data,
+    };
+
     return {
       statusCode: 200,
-      body: {
-        error: null,
-        data,
-      },
+      body: JSON.stringify(body),
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: { error },
+      body: JSON.stringify({
+        error,
+      }),
     };
   }
 };
