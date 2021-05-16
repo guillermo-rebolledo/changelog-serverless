@@ -1,8 +1,35 @@
-exports.handler = async event => {
-  const subject = event.queryStringParameters.name || 'World';
-  
-  return {
-    statusCode: 200,
-    body: `Hello ${subject}`,
-  };
+const github = require('octonode');
+const token = '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';
+
+exports.handler = async (event) => {
+  const repoR = await client.repo(`wizeline/patio-ui`);
+
+  Promise.allSettled([repoR.prsAsync(), repoR.commitsAsync()])
+    .then((results) => {
+      const outputData = { pullRequests: null, commits: null };
+      results
+        .filter((result) => result.status === 'fulfilled')
+        .forEach((result, idx) => {
+          const [data] = result.value;
+          if (idx === 0) {
+            //PRs request
+            outputData.pullRequests = data;
+          } else {
+            outputData.commits = data;
+          }
+        });
+
+      return {
+        data: outputData,
+        error: null,
+      };
+    })
+    .catch((error) => {
+      return {
+        statusCode: 500,
+        body: {
+          error,
+        },
+      };
+    });
 };
