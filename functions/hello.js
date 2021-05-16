@@ -8,9 +8,10 @@ exports.handler = async (event) => {
     const [data] = await repoR.commitsAsync();
 
     return {
-      statusCode: 500,
+      statusCode: 200,
       body: {
-        error,
+        error: null,
+        data,
       },
     };
   } catch (error) {
