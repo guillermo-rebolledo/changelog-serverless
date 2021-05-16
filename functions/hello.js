@@ -1,8 +1,8 @@
 const github = require('octonode');
-const token = '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';
 
 exports.handler = async (event) => {
   const repoR = await client.repo(`wizeline/patio-ui`);
+  const client = github.client(process.env.GH_TOKEN);
 
   Promise.allSettled([repoR.prsAsync(), repoR.commitsAsync()])
     .then((results) => {
