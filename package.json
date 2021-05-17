@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/guillermo-rebolledo/changelog-serverless#readme",
   "dependencies": {
+    "node-fetch": "^2.6.1",
     "octonode": "^0.10.2"
   }
 }
