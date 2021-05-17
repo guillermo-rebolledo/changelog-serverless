@@ -7,17 +7,10 @@ const headers = {
 
 exports.handler = async (event) => {
   try {
-    const response = await fetch(
-      'https://api.github.com/repos/wizeline/patio-ui/actions/workflows',
-      {
-        method: 'get',
-        headers: {
-          Authorization: `token ${process.env.GH_TOKEN}`,
-        },
-      },
-    );
+    const client = github.client(process.env.GH_TOKEN);
+    const repoR = await client.repo(`wizeline/patio-ui`);
 
-    const data = await response.json();
+    const [data] = await repoR.prsAsync();
 
     const body = {
       error: null,

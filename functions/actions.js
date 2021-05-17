@@ -1,4 +1,4 @@
-const github = require('octonode');
+const fetch = require('node-fetch');
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
@@ -7,14 +7,21 @@ const headers = {
 
 exports.handler = async (event) => {
   try {
-    const client = github.client(process.env.GH_TOKEN);
-    const artifacts = await client.get(
-      `/repos/wizeline/patio-ui/actions/artifacts`,
+    const response = await fetch(
+      'https://api.github.com/repos/wizeline/patio-ui/actions/workflows',
+      {
+        method: 'get',
+        headers: {
+          Authorization: `token ${process.env.GH_TOKEN}`,
+        },
+      },
     );
+
+    const data = await response.json();
 
     const body = {
       error: null,
-      data: artifacts,
+      data,
     };
 
     return {
