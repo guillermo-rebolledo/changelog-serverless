@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const github = require('octonode');
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
